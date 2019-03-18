@@ -8,6 +8,6 @@ namespace Globomantics.Api.Repositories
 {
     public interface IStatisticsRepo
     {
-        StatisticsModel GetStatistics();
+        Task<StatisticsModel> GetStatistics();
     }
 }

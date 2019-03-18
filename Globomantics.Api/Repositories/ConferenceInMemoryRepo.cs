@@ -8,28 +8,32 @@ namespace Globomantics.Api.Repositories
 {
     public class ConferenceInMemoryRepo : IConferenceRepo
     {
-        private readonly List<ConferenceModel> conferences = new List<ConferenceModel>();
+        private readonly List<ConferenceModel> _conferences = new List<ConferenceModel>();
 
         public ConferenceInMemoryRepo()
         {
-            conferences.Add(new ConferenceModel { Id = 1, Name = "NDC", Location = "Oslo", Start = new DateTime(2017, 6, 12), AttendeeTotal = 2132 });
-            conferences.Add(new ConferenceModel { Id = 2, Name = "IT/DevConnections", Location = "San Francisco", Start = new DateTime(2017, 10, 18), AttendeeTotal = 3210 });
+            _conferences.Add(new ConferenceModel { Id = 1, Name = "NDC", Location = "Oslo", Start = new DateTime(2017, 6, 12), AttendeeTotal = 2132 });
+            _conferences.Add(new ConferenceModel { Id = 2, Name = "IT/DevConnections", Location = "San Francisco", Start = new DateTime(2017, 10, 18), AttendeeTotal = 3210 });
         }
-        public IEnumerable<ConferenceModel> GetAll()
+        public Task<IEnumerable<ConferenceModel>> GetAll()
         {
-            return conferences;
-        }
-
-        public ConferenceModel GetById(int id)
-        {
-            return conferences.First(c => c.Id == id);
+            return Task.Run(() => _conferences.AsEnumerable());
         }
 
-        public ConferenceModel Add(ConferenceModel model)
+        public Task<ConferenceModel> GetById(int id)
         {
-            model.Id = conferences.Max(c => c.Id) + 1;
-            conferences.Add(model);
-            return model;
+            return Task.Run(() => _conferences.First(c => c.Id == id));
+        }
+
+        public Task<ConferenceModel> Add(ConferenceModel model)
+        {
+            return Task.Run(() =>
+            {
+                model.Id = _conferences.Max(c => c.Id) + 1;
+                _conferences.Add(model);
+
+                return model;
+            });
         }
     }
 }

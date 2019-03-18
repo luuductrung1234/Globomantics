@@ -13,16 +13,17 @@ namespace Globomantics.Api.Controllers
     [ApiController]
     public class ConferenceController : ControllerBase
     {
-        private readonly IConferenceRepo repo;
+        private readonly IConferenceRepo _repo;
 
         public ConferenceController(IConferenceRepo repo)
         {
-            this.repo = repo;
+            _repo = repo;
         }
 
-        public IActionResult GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var conferences = repo.GetAll();
+            var conferences = await _repo.GetAll();
             if (!conferences.Any())
                 return new NoContentResult();
 
@@ -30,9 +31,9 @@ namespace Globomantics.Api.Controllers
         }
 
         [HttpPost]
-        public ConferenceModel Add(ConferenceModel conference)
+        public async Task<ConferenceModel> Add(ConferenceModel conference)
         {
-            return repo.Add(conference);
+            return await _repo.Add(conference);
         }
     }
 }

@@ -32,6 +32,8 @@ namespace Globomantics
             services.AddSingleton<IConferenceService, ConferenceInMemoryService>();
             services.AddSingleton<IProposalService, ProposalInMemoryService>();
 
+            services.AddHttpClient("", c => c.BaseAddress = new Uri("http://localhost:5000"));
+
             services.AddMvc();
 
         }

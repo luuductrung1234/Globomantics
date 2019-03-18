@@ -40,10 +40,7 @@ namespace Globomantics.Services
 
         public Task<IEnumerable<ConferenceModel>> GetAll()
         {
-            return Task.Run(() =>
-            {
-                return conferences.AsEnumerable();
-            });
+            return Task.Run(() => conferences.AsEnumerable());
         }
 
         public Task<ConferenceModel> GetById(int id)

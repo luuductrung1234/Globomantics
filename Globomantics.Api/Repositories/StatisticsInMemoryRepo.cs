@@ -8,16 +8,16 @@ namespace Globomantics.Api.Repositories
 {
     public class StatisticsInMemoryRepo : IStatisticsRepo
     {
-        private readonly IConferenceRepo conferenceRepo;
+        private readonly IConferenceRepo _conferenceRepo;
 
         public StatisticsInMemoryRepo(IConferenceRepo conferenceRepo)
         {
-            this.conferenceRepo = conferenceRepo;
+            _conferenceRepo = conferenceRepo;
         }
 
-        public StatisticsModel GetStatistics()
+        public async Task<StatisticsModel> GetStatistics()
         {
-            var conferences = conferenceRepo.GetAll();
+            var conferences = await _conferenceRepo.GetAll();
             return new StatisticsModel
             {
                 NumberOfAttendees = conferences.Sum(c => c.AttendeeTotal),

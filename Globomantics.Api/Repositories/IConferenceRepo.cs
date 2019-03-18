@@ -8,10 +8,10 @@ namespace Globomantics.Api.Repositories
 {
     public interface IConferenceRepo
     {
-        ConferenceModel Add(ConferenceModel model);
+        Task<ConferenceModel> Add(ConferenceModel model);
 
-        IEnumerable<ConferenceModel> GetAll();
+        Task<IEnumerable<ConferenceModel>> GetAll();
 
-        ConferenceModel GetById(int id);
+        Task<ConferenceModel> GetById(int id);
     }
 }

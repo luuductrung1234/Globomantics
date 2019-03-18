@@ -19,9 +19,9 @@ namespace Globomantics.Api.Controllers
         {
             this.repo = repo;
         }
-        public StatisticsModel Get()
+        public async Task<StatisticsModel> Get()
         {
-            return repo.GetStatistics();
+            return await repo.GetStatistics();
         }
     }
 }

@@ -13,18 +13,18 @@ namespace Globomantics.Api.Controllers
     [ApiController]
     public class ProposalController : ControllerBase
     {
-        private readonly IProposalRepo proposalRepo;
+        private readonly IProposalRepo _proposalRepo;
 
         public ProposalController(IConferenceRepo conferenceRepo,
             IProposalRepo proposalRepo)
         {
-            this.proposalRepo = proposalRepo;
+            _proposalRepo = proposalRepo;
         }
 
         [HttpGet("{conferenceId}")]
         public IActionResult GetAll(int conferenceId)
         {
-            var proposals = proposalRepo.GetAllForConference(conferenceId);
+            var proposals = _proposalRepo.GetAllForConference(conferenceId);
 
             if (!proposals.Any())
                 return new NoContentResult();
@@ -35,13 +35,13 @@ namespace Globomantics.Api.Controllers
         [HttpGet("{id}", Name = "GetById")]
         public ProposalModel GetById(int id)
         {
-            return proposalRepo.GetById(id);
+            return _proposalRepo.GetById(id);
         }
 
         [HttpPost]
         public IActionResult Add(ProposalModel model)
         {
-            var addedProposal = proposalRepo.Add(model);
+            var addedProposal = _proposalRepo.Add(model);
             return CreatedAtRoute("GetById", new { id = addedProposal.Id },
                 addedProposal);
         }
@@ -51,7 +51,7 @@ namespace Globomantics.Api.Controllers
         {
             try
             {
-                return new ObjectResult(proposalRepo.Approve(proposalId));
+                return new ObjectResult(_proposalRepo.Approve(proposalId));
             }
             catch (InvalidOperationException)
             {
