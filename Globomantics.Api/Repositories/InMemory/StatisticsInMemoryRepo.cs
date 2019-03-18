@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Models;
 
-namespace Globomantics.Api.Repositories
+namespace Globomantics.Api.Repositories.InMemory
 {
     public class StatisticsInMemoryRepo : IStatisticsRepo
     {

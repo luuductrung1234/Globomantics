@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Globomantics.Api.Repositories;
+using Globomantics.Api.Repositories.InMemory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,9 +27,9 @@ namespace Globomantics.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IConferenceRepo, ConferenceInMemoryRepo>();
-            services.AddSingleton<IProposalRepo, ProposalInMemoryRepo>();
-            services.AddSingleton<IStatisticsRepo, StatisticsInMemoryRepo>();
+            services.AddScoped<IConferenceRepo, ConferenceInMemoryRepo>();
+            services.AddScoped<IProposalRepo, ProposalInMemoryRepo>();
+            services.AddScoped<IStatisticsRepo, StatisticsInMemoryRepo>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -45,7 +46,6 @@ namespace Globomantics.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Models;
 
-namespace Globomantics.Api.Repositories
+namespace Globomantics.Api.Repositories.InMemory
 {
     public class ConferenceInMemoryRepo : IConferenceRepo
     {
@@ -31,7 +31,6 @@ namespace Globomantics.Api.Repositories
             {
                 model.Id = _conferences.Max(c => c.Id) + 1;
                 _conferences.Add(model);
-
                 return model;
             });
         }

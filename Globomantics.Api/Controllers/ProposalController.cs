@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Globomantics.Api.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Globomantics.Api.Controllers
 {
@@ -13,18 +14,20 @@ namespace Globomantics.Api.Controllers
     [ApiController]
     public class ProposalController : ControllerBase
     {
+        private readonly IConferenceRepo _conferenceRepo;
         private readonly IProposalRepo _proposalRepo;
 
         public ProposalController(IConferenceRepo conferenceRepo,
             IProposalRepo proposalRepo)
         {
-            _proposalRepo = proposalRepo;
+            this._conferenceRepo = conferenceRepo;
+            this._proposalRepo = proposalRepo;
         }
 
-        [HttpGet("{conferenceId}")]
-        public IActionResult GetAll(int conferenceId)
+        [HttpGet("{conferenceId}", Name = "GetAll")]
+        public async Task<IActionResult> GetAll(int conferenceId)
         {
-            var proposals = _proposalRepo.GetAllForConference(conferenceId);
+            var proposals = await _proposalRepo.GetAllForConference(conferenceId);
 
             if (!proposals.Any())
                 return new NoContentResult();
@@ -32,26 +35,26 @@ namespace Globomantics.Api.Controllers
             return new ObjectResult(proposals);
         }
 
-        [HttpGet("{id}", Name = "GetById")]
-        public ProposalModel GetById(int id)
+        [HttpGet(Name = "GetById")]
+        public async Task<ProposalModel> GetById(int id)
         {
-            return _proposalRepo.GetById(id);
+            return await _proposalRepo.GetById(id);
         }
 
         [HttpPost]
-        public IActionResult Add(ProposalModel model)
+        public async Task<IActionResult> Add([FromBody]ProposalModel model)
         {
-            var addedProposal = _proposalRepo.Add(model);
+            var addedProposal = await _proposalRepo.Add(model);
             return CreatedAtRoute("GetById", new { id = addedProposal.Id },
                 addedProposal);
         }
 
         [HttpPut("{proposalId}")]
-        public IActionResult Approve(int proposalId)
+        public async Task<IActionResult> Approve(int proposalId)
         {
             try
             {
-                return new ObjectResult(_proposalRepo.Approve(proposalId));
+                return new ObjectResult(await _proposalRepo.Approve(proposalId));
             }
             catch (InvalidOperationException)
             {
