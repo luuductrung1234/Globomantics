@@ -31,12 +31,10 @@ namespace Globomantics
         {
             services.Configure<GlobomanticsOptions>(_configuration.GetSection("Globomantics"));
 
-            //services.AddSingleton<IConferenceService, ConferenceInMemoryService>();
-            //services.AddSingleton<IProposalService, ProposalInMemoryService>();
-            //services.AddScoped<IConferenceService, ConferenceApiService>();
-            //services.AddScoped<IProposalService, ProposalApiService>();
-            services.AddHttpClient<IConferenceService, ConferenceApiService>();
-            services.AddHttpClient<IProposalService, ProposalApiService>();
+            services.AddSingleton<IConferenceService, ConferenceInMemoryService>();
+            services.AddSingleton<IProposalService, ProposalInMemoryService>();
+            //services.AddHttpClient<IConferenceService, ConferenceApiService>();
+            //services.AddHttpClient<IProposalService, ProposalApiService>();
 
             services.AddHttpClient("GlobomanticsApi", c => c.BaseAddress = new Uri("http://localhost:5000"));
 
