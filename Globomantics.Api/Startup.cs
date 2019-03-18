@@ -27,9 +27,9 @@ namespace Globomantics.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IConferenceRepo, ConferenceInMemoryRepo>();
-            services.AddScoped<IProposalRepo, ProposalInMemoryRepo>();
-            services.AddScoped<IStatisticsRepo, StatisticsInMemoryRepo>();
+            services.AddSingleton<IConferenceRepo, ConferenceInMemoryRepo>();
+            services.AddSingleton<IProposalRepo, ProposalInMemoryRepo>();
+            services.AddSingleton<IStatisticsRepo, StatisticsInMemoryRepo>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

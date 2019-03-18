@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Shared.Models;
 
-namespace Globomantics.Services
+namespace Globomantics.Services.InMemory
 {
     public class ConferenceInMemoryService : IConferenceService
     {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Globomantics.Services;
+using Globomantics.Services.Api;
+using Globomantics.Services.InMemory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,10 +31,14 @@ namespace Globomantics
         {
             services.Configure<GlobomanticsOptions>(_configuration.GetSection("Globomantics"));
 
-            services.AddSingleton<IConferenceService, ConferenceInMemoryService>();
-            services.AddSingleton<IProposalService, ProposalInMemoryService>();
+            //services.AddSingleton<IConferenceService, ConferenceInMemoryService>();
+            //services.AddSingleton<IProposalService, ProposalInMemoryService>();
+            //services.AddScoped<IConferenceService, ConferenceApiService>();
+            //services.AddScoped<IProposalService, ProposalApiService>();
+            services.AddHttpClient<IConferenceService, ConferenceApiService>();
+            services.AddHttpClient<IProposalService, ProposalApiService>();
 
-            services.AddHttpClient("", c => c.BaseAddress = new Uri("http://localhost:5000"));
+            services.AddHttpClient("GlobomanticsApi", c => c.BaseAddress = new Uri("http://localhost:5000"));
 
             services.AddMvc();
 
